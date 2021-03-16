@@ -1,0 +1,32 @@
+<Clients>
+	<Client>
+		<ClientID>101</ClientID>
+		<FirstName>Hieu</FirstName>
+		<LastName>Phan</LastName>
+		<Gender>Male</Gender>
+		<MartialStatus>Single</MartialStatus>
+		<DateOfBirth>1995-01-01</DateOfBirth>
+		<Address>Dong Nai</Address>
+		<Country>Viet Nam</Country>
+	</Client>
+	<Client>
+		<ClientID>101</ClientID>
+		<FirstName>Hieu</FirstName>
+		<LastName>Phan</LastName>
+		<Gender>Male</Gender>
+		<MartialStatus>Single</MartialStatus>
+		<DateOfBirth>1995-01-01</DateOfBirth>
+		<Address>Dong Nai</Address>
+		<Country>Viet Nam</Country>
+	</Client>
+	<Client>
+		<ClientID>101</ClientID>
+		<FirstName>Hieu</FirstName>
+		<LastName>Phan</LastName>
+		<Gender>Male</Gender>
+		<MartialStatus>Single</MartialStatus>
+		<DateOfBirth>1995-01-01</DateOfBirth>
+		<Address>Dong Nai</Address>
+		<Country>Viet Nam</Country>
+	</Client>
+</Clients>

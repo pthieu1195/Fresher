@@ -1,0 +1,22 @@
+@charset "ISO-8859-1";
+#result{
+padding-top:100px;
+padding-right:100px;
+padding-bottom:100px;
+padding-left:100px;
+ text-align: center;
+}
+.btn{
+	 text-align: left;
+	width: 200px;
+	  display: inline-block;
+}
+#buttonSearch{
+	 text-align: center;
+}
+#formSearch{
+padding-top:50px;
+padding-right:200px;
+padding-bottom:50px;
+padding-left:200px;
+}
