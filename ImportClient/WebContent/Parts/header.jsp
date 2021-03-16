@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+    <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<fmt:setLocale value="en"/>
+<fmt:setBundle basename="Label"/>
 <!DOCTYPE html>
 <html>
 <head>
@@ -23,9 +26,9 @@
                 </svg>
 			</div>
 			<ul class="nav navbar-nav">
-				<li><a href="home">Home</a></li>
-				<li ><a href="searchClient">Search Client</a></li>
-				<li><a href="importClient">Import Client</a></li>
+				<li><a href="home"><fmt:message key="navbar.home" /></a></li>
+				<li ><a href="searchClient"><fmt:message key="navbar.searchClient" /></a></li>
+				<li><a href="importClient"><fmt:message key="navbar.importClient" /></a></li>
 			</ul>
 		</div>
 	</nav>

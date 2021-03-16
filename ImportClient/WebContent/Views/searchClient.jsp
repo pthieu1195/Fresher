@@ -1,6 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<fmt:setLocale value="en"/>
+<fmt:setBundle basename="Label"/>
 <!DOCTYPE html">
 <html>
 <head>
@@ -18,59 +21,59 @@
 	</div>
 	<div id=buttonSearch>
 	
-	<button class="btn btn-primary" onclick="ToggleForm('form')">Search By ID</button>
-	<button class="btn btn-primary" onclick="ToggleForm('form1')">Search By Name</button>
-	<button class="btn btn-primary" onclick="ToggleForm('form2')">Search By Date Of Birth</button>
-	<button class="btn btn-primary" onclick="ToggleForm('form3')">Search By ID, Name, DOB</button>
+	<button class="btn btn-primary" onclick="ToggleForm('form')"><fmt:message key="button.searchByID" /></button>
+	<button class="btn btn-primary" onclick="ToggleForm('form1')"><fmt:message key="button.searchByName" /></button>
+	<button class="btn btn-primary" onclick="ToggleForm('form2')"><fmt:message key="button.searchByDOB" /></button>
+	<button class="btn btn-primary" onclick="ToggleForm('form3')"><fmt:message key="button.searchByAll" /></button>
 	
-    	<button class="btn btn-primary" onclick="location.href='setup'" >Setup</button>
+    	<button class="btn btn-primary" onclick="location.href='setup'" ><fmt:message key="button.setup" /></button>
 
 </div>
 
 <div id="formSearch">
 		<form action="searchClient" method="GET" style="display: none;" id="form">
 			<div class="form-group">
-			<label for="ClientID">Input client ID</label>
+			<label for="ClientID"><fmt:message key="label.inputClientID" /></label>
 				<input type="text"class="form-control" name="ClientID" id="ClientID" required>
 			</div>
-			<button type="submit" class="btn btn-default">Search</button>
+			<button type="submit" class="btn btn-default"><fmt:message key="button.search" /></button>
 		</form>
 		<form action="searchClient" method="GET" style="display: none;" id="form1" >
 			<div class="form-group">
-			<label for="FirstName">Input first name</label>
+			<label for="FirstName"><fmt:message key="label.inputFirstName" /></label>
 				<input type="text"class="form-control" name="FirstName"id="FirstName" required>
 			</div>
 			<div class="form-group">
-			<label for="LastName">Input last name</label>
+			<label for="LastName"><fmt:message key="label.inputLastName" /></label>
 				<input type="text"class="form-control" name="LastName" id="LastName" required>
 			</div>
-			<button type="submit" class="btn btn-default">Search</button>
+			<button type="submit" class="btn btn-default"><fmt:message key="button.search" /></button>
 		</form>
 		<form action="searchClient" method="GET" style="display: none;" id="form2">
 			<div class="form-group">
-			<label for="ClientDOB">Input date of birth</label>
+			<label for="ClientDOB"><fmt:message key="label.inputDOB" /></label>
 				 <input type="date"class="form-control" name="ClientDOB"id="ClientDOB" required>
 			</div>
-			<button type="submit" class="btn btn-default">Search</button>
+			<button type="submit" class="btn btn-default"><fmt:message key="button.search" /></button>
 		</form>
 		<form action="searchClient" method="GET" style="display: none;" id="form3">
 			<div class="form-group">
-			<label for="ClientID">Input client ID</label>
+			<label for="ClientID"><fmt:message key="label.inputClientID" /></label>
 				<input type="text"class="form-control" name="ClientID" id="ClientID" required>
 			</div>
 			<div class="form-group">
-			<label for="FirstName">Input first name</label>
+			<label for="FirstName"><fmt:message key="label.inputFirstName" /></label>
 				<input type="text"class="form-control" id="FirstName" name="FirstName"required>
 			</div>
 			<div class="form-group">
-			<label for="LastName">Input last name</label>
+			<label for="LastName"><fmt:message key="label.inputLastName" /></label>
 				<input type="text"class="form-control" id="LastName" name="LastName" required>
 			</div>
 			<div class="form-group">
-			<label for="ClientDOB">Input date of birth</label>
+			<label for="ClientDOB"><fmt:message key="label.inputDOB" /></label>
 				 <input type="date"class="form-control" id="ClientDOB" name="ClientDOB" required>
 			</div>
-			<button type="submit" class="btn btn-default">Search</button>
+			<button type="submit" class="btn btn-default"><fmt:message key="button.search" /></button>
 		</form>
 		</div>
 		

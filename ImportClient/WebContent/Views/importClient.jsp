@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
+	<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<fmt:setLocale value="en"/>
+<fmt:setBundle basename="Label"/>
 <!DOCTYPE html>
 <html>
 <head>
@@ -23,7 +26,7 @@
 	<p> ${message}</p>
 	<form method="post" action="importClient" enctype="multipart/form-data">
     <input type="file" name="file" size="60" /><br /><br /> 
-    <input type="submit" value="Upload" class="btn btn-primary" />
+    <input type="submit" value="<fmt:message key="button.upload" />" class="btn btn-primary" />
   </form>
 	</div>
 	<div id="footer">
