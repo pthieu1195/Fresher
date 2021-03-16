@@ -185,7 +185,20 @@ public class ClientDAO {
 		disconnect();
 		return list;
 	}
+	public int compareLocalDate(LocalDate date) {
+		LocalDate currentDate = LocalDate.now();
+		int cmp = (currentDate.getYear() - date.getYear());
+	    if (cmp == 0) {
+	        cmp = (currentDate.getMonthValue() - date.getMonthValue());
+	        if (cmp == 0) {
+	            cmp = (currentDate.getDayOfMonth() - date.getDayOfMonth());
+	        }
+	    }
+	    return cmp;
+	}
+	
 	public boolean ValidateClient(Clients list) {
+		
 		boolean check = false;
 		if (list==null)
 		{
@@ -196,44 +209,43 @@ public class ClientDAO {
 		{
 		for (Client client : list.getClients()) {
 			if(client.getClientId()==null || client.getClientId().length()>15)
-			{	System.out.println("client fail");
+			{	
 				check=true;
 				break;
 			}
 			if(client.getFirstName()==null||client.getLastName()==null)
 			{
-				System.out.println("name");
+				
 				check=true;
 				break;
 			}
 			if(client.getGender()==null||!client.getGender().matches("Male|Female|Unknown"))
 			{
-				System.out.println(client.getGender());
-				System.out.println("gender");
+				
 				check=true;
 				break;
 			}
 			if(client.getMartialStatus()==null||!client.getMartialStatus().matches("Single|Married|Divorced"))
 			{
-				System.out.println("martial");
+				
 				check=true;
 				break;
 			}
-			if(client.getDob()==null)
+			if(client.getDob()==null||compareLocalDate(client.getDob())<=0)
 			{
-				System.out.println("dob");
+				
 				check=true;
 				break;
 			}
 			if(client.getAddress()==null)
 			{
-				System.out.println("add");
+				
 				check=true;
 				break;
 			}
 			if(client.getCountry()==null||!client.getCountry().matches("VietNam|Singapore|Malaysia|United States"))
 			{
-				System.out.println("Country");
+				
 				check=true;
 				break;
 			}
@@ -242,6 +254,25 @@ public class ClientDAO {
 		return check;
 		}
 		
+	public ArrayList<Mapping> getMapping() throws SQLException {
+		ArrayList<Mapping> list = new ArrayList<>();
+
+		String sql = "SELECT * FROM MappingScreen " ;
+		connect();
+		Statement ps = conn.createStatement();
+		ResultSet rs = ps.executeQuery(sql);
+		while (rs.next()) {
+			String clientColumn = rs.getString("ClientColumn");
+			String xmlTagName = rs.getString("TagName");
+			Mapping map=new Mapping(clientColumn,xmlTagName);
+			list.add(map);
+		}
+		rs.close();
+		ps.close();
+		disconnect();
+		return list;
+	}
+	
 	// import and update
 	public int insertClient(Clients list) throws SQLException {
 		connect();

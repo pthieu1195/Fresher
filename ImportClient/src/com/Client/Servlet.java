@@ -47,22 +47,24 @@ public class Servlet extends HttpServlet {
 			Clients list = (Clients) jaxbUnmarshaller.unmarshal(new File(filePath));
 			if(ClientDAO.ValidateClient(list)==true)
 			{
-				String message = "fail to import client ";
-				response.sendRedirect("Views/importClient.jsp?message="+message );
+				request.setAttribute("message","fail to import client ");
+				request.getRequestDispatcher("Views/importClient.jsp").forward(request, response);
+				
+				
 			}
 			else {
 			ClientDAO.insertClient(list);
-			String message = "Import successful ";
-			response.sendRedirect("Views/importClient.jsp?message="+message );
+			request.setAttribute("message","Import Client Success ");
+			request.getRequestDispatcher("Views/importClient.jsp").forward(request, response);
 			}
 		} catch (JAXBException e) {
-			String message = "XML file error ";
-			response.sendRedirect("Views/importClient.jsp?message="+message );
+			request.setAttribute("message","Cannot read xml file ");
+			request.getRequestDispatcher("Views/importClient.jsp").forward(request, response);
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (SQLException e) {
-			String message = "SQL error ";
-			response.sendRedirect("Views/importClient.jsp?message="+message );
+			request.setAttribute("message","SQL Syntax Error ");
+			request.getRequestDispatcher("Views/importClient.jsp").forward(request, response);
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -75,25 +77,33 @@ public class Servlet extends HttpServlet {
 		case "/importClient":
 			importView(request, response);
 			break;
+		case "/setup":
+			try {
+				setupView(request, response);
+			} catch (SQLException | ServletException | IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			break;
 		case "/searchClient":
 			try {
 				if(request.getParameter("ClientID")!=null && request.getParameter("FirstName")==null && request.getParameter("LastName")==null && request.getParameter("ClientDOB")==null)
 				{
 					searchByID(request, response);
 				}
-				if(request.getParameter("ClientID")==null && request.getParameter("FirstName")!=null && request.getParameter("LastName")!=null && request.getParameter("ClientDOB")==null)
+				else if(request.getParameter("ClientID")==null && request.getParameter("FirstName")!=null && request.getParameter("LastName")!=null && request.getParameter("ClientDOB")==null)
 				{
 					searchByName(request, response);
 				}
-				if(request.getParameter("ClientID")==null && request.getParameter("FirstName")==null && request.getParameter("LastName")==null && request.getParameter("ClientDOB")!=null)
+				else if(request.getParameter("ClientID")==null && request.getParameter("FirstName")==null && request.getParameter("LastName")==null && request.getParameter("ClientDOB")!=null)
 				{
 					searchByDOB(request, response);
 				}
-				if(request.getParameter("ClientID")!=null && request.getParameter("FirstName")!=null && request.getParameter("LastName")!=null && request.getParameter("ClientDOB")!=null)
+				else if(request.getParameter("ClientID")!=null && request.getParameter("FirstName")!=null && request.getParameter("LastName")!=null && request.getParameter("ClientDOB")!=null)
 				{
 					searchByAll(request, response);
 				}
-				searchView(request, response);
+				else searchView(request, response);
 			} catch (SQLException | IOException | ServletException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -106,14 +116,25 @@ public class Servlet extends HttpServlet {
 		}
 	}
 
+	private void setupView(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
+		
+
+		List<Mapping> list = ClientDAO.getMapping();
+		request.setAttribute("listMapping", list);
+		RequestDispatcher dispatcher = request.getRequestDispatcher("Views/Setup.jsp");
+		dispatcher.forward(request, response);
+		
+	}
+
 	private void homeView(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		response.sendRedirect(response.encodeRedirectURL(request.getContextPath() + "/"));
 	}
 	private void importView(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		RequestDispatcher rs = request.getRequestDispatcher("Views/importClient.jsp");
-		rs.forward(request, response);
+		RequestDispatcher dispatcher = request.getRequestDispatcher("Views/importClient.jsp");
+		dispatcher.forward(request, response);
+		
 	}
 
 	private void searchView(HttpServletRequest request, HttpServletResponse response)
@@ -148,9 +169,13 @@ public class Servlet extends HttpServlet {
 		request.setAttribute("listClient", list);
 		request.setAttribute("noOfPages", noOfPages);
 		request.setAttribute("currentPage", page);
-		
+		if(list.size()==0)
+		{
+			request.setAttribute("message","No Clients Found");
+		}
 		RequestDispatcher dispatcher = request.getRequestDispatcher("Views/searchClient.jsp");
 		dispatcher.forward(request, response);
+		return;
 	}
 	private void searchByName(HttpServletRequest request, HttpServletResponse response)
 			throws SQLException, ServletException, IOException {
@@ -165,8 +190,13 @@ public class Servlet extends HttpServlet {
 		request.setAttribute("listClient", list);
 		request.setAttribute("noOfPages", noOfPages);
 		request.setAttribute("currentPage", page);
+		if(list.size()==0)
+		{
+			request.setAttribute("message","No Clients Found");
+		}
 		RequestDispatcher dispatcher = request.getRequestDispatcher("Views/searchClient.jsp");
 		dispatcher.forward(request, response);
+		
 	}
 	private void searchByDOB(HttpServletRequest request, HttpServletResponse response)
 			throws SQLException, ServletException, IOException {
@@ -182,8 +212,13 @@ public class Servlet extends HttpServlet {
 		request.setAttribute("listClient", list);
 		request.setAttribute("noOfPages", noOfPages);
 		request.setAttribute("currentPage", page);
+		if(list.size()==0)
+		{
+			request.setAttribute("message","No Clients Found");
+		}
 		RequestDispatcher dispatcher = request.getRequestDispatcher("Views/searchClient.jsp");
 		dispatcher.forward(request, response);
+		
 	}
 	private void searchByAll(HttpServletRequest request, HttpServletResponse response)
 			throws SQLException, ServletException, IOException {
@@ -199,8 +234,13 @@ public class Servlet extends HttpServlet {
 		request.setAttribute("listClient", list);
 		request.setAttribute("noOfPages", noOfPages);
 		request.setAttribute("currentPage", page);
+		if(list.size()==0)
+		{
+			request.setAttribute("message","No Clients Found");
+		}
 		RequestDispatcher dispatcher = request.getRequestDispatcher("Views/searchClient.jsp");
 		dispatcher.forward(request, response);
+		
 	}
 
 }

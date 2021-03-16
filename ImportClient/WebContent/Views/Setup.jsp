@@ -20,20 +20,28 @@
 		<table class="table">
 			<thead>
 				<tr>
-					<th>Client ID</th>
-					<th>Client First Name</th>
-					<th>Client Last Name</th>
-					<th>Client Gender</th>
-					<th>Client Martial Status</th>
-					<th>Client Date Of Birth</th>
-					<th>Client Address</th>
-					<th>Client Country</th>
+					<th>Client Column</th>
+					<th>Xml Tag Name</th>
 				</tr>
 			</thead>
 
-			
+			<tbody>
+				<c:forEach var="Map" items="${listMapping}">
+					<tr>
+						<td><p>
+								<c:out value="${Map.clientColumn}" />
+							</p></td>
+						<td><p>
+								<c:out value="${Map.xmlTagName}" />
+							</p></td>
+						
+					</tr>
+				</c:forEach>
+			</tbody>
 		</table>
+			
 		</div>
+		<button class="btn btn-primary" onclick="location.href='searchClient'"style="width:200px;text-align:center" >OK</button>
 	<div id="footer">
 	<jsp:include page="../Parts/footer.jsp" />
 	</div>

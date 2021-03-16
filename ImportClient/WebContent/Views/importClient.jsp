@@ -20,7 +20,7 @@
 	</div>
 	
 	<div id="uploadFile">
-	<p> ${param.message}</p>
+	<p> ${message}</p>
 	<form method="post" action="importClient" enctype="multipart/form-data">
     <input type="file" name="file" size="60" /><br /><br /> 
     <input type="submit" value="Upload" class="btn btn-primary" />

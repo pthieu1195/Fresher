@@ -21,8 +21,10 @@
 	<button class="btn btn-primary" onclick="ToggleForm('form')">Search By ID</button>
 	<button class="btn btn-primary" onclick="ToggleForm('form1')">Search By Name</button>
 	<button class="btn btn-primary" onclick="ToggleForm('form2')">Search By Date Of Birth</button>
-	<button class="btn btn-primary" onclick="ToggleForm('form3')">Search By ID, Name, Date Of Birth</button>
-	<button class="btn btn-primary" onclick="">Setup</button>
+	<button class="btn btn-primary" onclick="ToggleForm('form3')">Search By ID, Name, DOB</button>
+	
+    	<button class="btn btn-primary" onclick="location.href='setup'" >Setup</button>
+
 </div>
 
 <div id="formSearch">
@@ -71,8 +73,10 @@
 			<button type="submit" class="btn btn-default">Search</button>
 		</form>
 		</div>
+		
 	<div id="result">
-
+<p> ${message}</p>
+<br>
 		<table class="table">
 			<thead>
 				<tr>
