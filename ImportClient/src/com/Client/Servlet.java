@@ -54,10 +54,12 @@ public class Servlet extends HttpServlet {
 			}
 			else {
 			ClientDAO.insertClient(list);
+			
 			request.setAttribute("message","Import Client Success ");
 			request.getRequestDispatcher("Views/importClient.jsp").forward(request, response);
 			}
 		} catch (JAXBException e) {
+			
 			request.setAttribute("message","Cannot read xml file ");
 			request.getRequestDispatcher("Views/importClient.jsp").forward(request, response);
 			// TODO Auto-generated catch block

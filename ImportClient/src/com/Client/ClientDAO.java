@@ -1,18 +1,62 @@
 package com.Client;
 
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.net.URI;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Calendar;
+
+import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVPrinter;
 
 public class ClientDAO {
+
 	private Connection conn;
 	private int n;
+	private static int count = 0;
+	public void writeCSV(String clientId,String field,String err) throws IOException {
+		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
+		Calendar cal = Calendar.getInstance();
+		try (
+			
+	            BufferedWriter writer = Files.newBufferedWriter(Paths.get("D:\\"+Integer.toString(count)+dateFormat.format(cal.getTime())+"report.csv"));
+	            CSVPrinter csvPrinter = new CSVPrinter(writer, CSVFormat.DEFAULT
+	                    .withHeader("Client Number", "Error Field", "Error Message", "Imported Date"));
+	        ) 
+		{
+			
+	            csvPrinter.printRecord(clientId, field, err, dateFormat.format(cal.getTime()));
+	            csvPrinter.flush();            
+	        }
+		count++;
+	}
+	public void writeCSVSuccess(String clientId,String clientName) throws IOException {
+		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
+		Calendar cal = Calendar.getInstance();
+		try (
+	            BufferedWriter writer = Files.newBufferedWriter(Paths.get("D:\\"+Integer.toString(count)+dateFormat.format(cal.getTime())+"report.csv"));
 
+	            CSVPrinter csvPrinter = new CSVPrinter(writer, CSVFormat.DEFAULT
+	                    .withHeader("Client Number", "Client Name", "Imported Date"));
+	        ) 
+		{
+			
+	            csvPrinter.printRecord(clientId, clientName, dateFormat.format(cal.getTime()));
+	            csvPrinter.flush();            
+	        }
+		count++;
+	}
 	protected void connect() throws SQLException {
 		if (conn == null || conn.isClosed()) {
 
@@ -197,7 +241,7 @@ public class ClientDAO {
 	    return cmp;
 	}
 	
-	public boolean ValidateClient(Clients list) {
+	public boolean ValidateClient(Clients list) throws IOException {
 		
 		boolean check = false;
 		if (list==null)
@@ -210,42 +254,43 @@ public class ClientDAO {
 		for (Client client : list.getClients()) {
 			if(client.getClientId()==null || client.getClientId().length()>15)
 			{	
+				writeCSV(client.getClientId(),"CLientID","ClientID missing or to long");
 				check=true;
 				break;
 			}
 			if(client.getFirstName()==null||client.getLastName()==null)
 			{
-				
+				writeCSV(client.getClientId(),"Client Name","Client Name missing");
 				check=true;
 				break;
 			}
 			if(client.getGender()==null||!client.getGender().matches("Male|Female|Unknown"))
 			{
-				
+				writeCSV(client.getClientId(),"Client Gender","Client gender missing or wrong");
 				check=true;
 				break;
 			}
 			if(client.getMartialStatus()==null||!client.getMartialStatus().matches("Single|Married|Divorced"))
 			{
-				
+				writeCSV(client.getClientId(),"Client Martial","Client martial missing or wrong");
 				check=true;
 				break;
 			}
 			if(client.getDob()==null||compareLocalDate(client.getDob())<=0)
 			{
-				
+				writeCSV(client.getClientId(),"Client Date Of Birth","Client date of birth missing or wrong");
 				check=true;
 				break;
 			}
 			if(client.getAddress()==null)
 			{
-				
+				writeCSV(client.getClientId(),"Client Address","Client address missing");
 				check=true;
 				break;
 			}
 			if(client.getCountry()==null||!client.getCountry().matches("VietNam|Singapore|Malaysia|United States"))
 			{
-				
+				writeCSV(client.getClientId(),"Country","Country missing or wrong");
 				check=true;
 				break;
 			}
@@ -274,7 +319,7 @@ public class ClientDAO {
 	}
 	
 	// import and update
-	public int insertClient(Clients list) throws SQLException {
+	public int insertClient(Clients list) throws SQLException, IOException {
 		connect();
 		int check = 0;
 		for (Client client : list.getClients()) {
@@ -318,6 +363,8 @@ public class ClientDAO {
 			statement.setString(24, client.getCountry());
 			check += statement.executeUpdate();
 			statement.close();
+			String name=client.getFirstName()+" "+client.getLastName();
+			writeCSVSuccess(client.getClientId(),name);
 		}
 		disconnect();
 		return check;
